@@ -1,6 +1,7 @@
 # Prescribed-Time-Non-Disruptive-Formation-Control-of-Open-Multi-Agent-Systems via Information Isolation
 A simulation code for a paper submitted to IEEE TIE
-Scenario 1 and Scenario 2 correspond to two simulation cases. The comparison methods labeled “-auto” and “-TAC” refer to the approaches in [1] and [2], respectively. The file “Main.m” is the main simulation program.
+
+Scenario 1 and Scenario 2 correspond to two simulation cases. The comparison methods labeled “-Auto” and “-TAC” refer to the approaches in [1] and [2], respectively. The file “Main.m” is the main simulation program.
 
 [1] T.-F. Ding, M.-F. Ge, C. Xiong, Z.-W. Liu, and G. Ling, “Prescribed-time formation tracking of second-order multi-agent networks with directed graphs,” Automatica, vol. 152, p. 110997, 2023.
 
