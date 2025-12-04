@@ -30,7 +30,7 @@ plot(t3, auto3.X3(:,1)-px(1)-2*t3, 'LineWidth', 1.5,'color','b');hold on;
 plot(t3, tac3.X3(:,1)-px(1)-2*t3, 'LineWidth', 1.5,'color','r');hold on;
 plot(t3, our3.X3(:,1)-px(1)-2*t3, 'LineWidth', 1.5,'color','k');hold on;
 
-legend('Control approach in [14]','Control approach in [14]','Proposed control approach');
+legend('Control approach in [14]','Control approach in [5]','Proposed control approach');
 set(gca,'FontSize',12, 'box','on');  
 xlabel('Times(s)','FontSize',15); ylabel('$e^x_{pi}$','interpreter','latex','FontSize',16); 
 xlim([0 15]);
