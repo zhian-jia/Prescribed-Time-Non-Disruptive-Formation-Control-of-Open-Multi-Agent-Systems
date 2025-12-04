@@ -6,7 +6,7 @@ plot(0.01:0.01:15.01, auto1.errorsx(:,3), 'LineWidth', 1.5,'color','b');hold on;
 plot(0.01:0.01:15.01, tac1.errorsx(:,3), 'LineWidth', 1.5,'color','r');hold on;
 plot(0.01:0.01:15.01, our1.errorsx(:,3), 'LineWidth', 1.5,'color','k');hold on;
 
-legend('Control approach in [14]','Control approach in [14]','Proposed control approach');
+legend('Control approach in [14]','Control approach in [5]','Proposed control approach');
 set(gca,'FontSize',12, 'box','on');  
 xlabel('Times(s)','FontSize',15); ylabel('$e^x_{pi}$','interpreter','latex','FontSize',16); 
 xlim([0 15]);
