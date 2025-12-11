@@ -1,6 +1,6 @@
 clc; clear; close all;
 SWITCH_flag=0;%SWITCH_flag=1-for proposed control approach;SWITCH_flag=0-for control approach proposed in \cite{ding2023auto}
-%% ²ÎÊıÉèÖÃ
+%% å‚æ•°è®¾ç½®
 alpha1 = 30;
 alpha2 = 20;
 rho = 10;
@@ -22,7 +22,7 @@ L=[ 2  -1  0 0 -1;
 px = [1; 2; 1; -1;-1];
 py = [3^0.5; 0; -3^0.5; -3^0.5;3^0.5];
 
-% ³õÊ¼×´Ì¬
+% åˆå§‹çŠ¶æ€
 x0 = [-10; -5; 5; 10;0];
 y0 = [5; -5; -10; -10;-10];
 vx0 = zeros(N,1);
@@ -36,13 +36,13 @@ options = odeset('reltol',1e-5,'abstol',1e-5);
 [t1, X1] = ode45(@(t, X) dynamics_leader(t, X, L, px, py, b, alpha1, alpha2, rho, Tu, t0), 0:0.01:ttf(1), X0,options);
 
 
-L=[ 3  -1 -1  0  -1  0;
+
+L=[ 4  -1 -1  0  -1  -1;
    -1  3  -1 -1  0  0;
     -1 -1  3  -1  0  0;
     0  -1  -1  4  -1 -1;
     -1  0  0  -1  3  -1;
-    0  0  0  -1  -1  2];%
-
+    -1  0  0  -1  -1  3];%
 
 b=[0; 1; 0; 0; 0; 0; 0];
 t0 = 5;
@@ -61,7 +61,7 @@ end
 [t2, X2] = ode45(@(t, X) dynamics_leader(t, X, L1, px, py, b, alpha1, alpha2, rho, Tu, t0),[ttf(1):0.01:ttf(2)],xnew1(ttf(1)/0.01+1,:),options);
 
 
-% %½×¶Î3
+% %é˜¶æ®µ3
 L=[ 2  -1  0  0   -1  0  0;
    -1  2   -1  0   0  0  0;
     0 -1   2  -1   0  0  0;
@@ -100,7 +100,7 @@ for k=1:ttf(1)/0.01+1
 end
 X(ttf(2)/0.01+1:ttf(3)/0.01+1,:)=X3(:,:);%xnew3(:,:)
 % X(ttf(3)/0.01+1:ttf(4)/0.01+1,:)=X4(:,:);
-%% »æÍ¼£ºÈıÎ¬¹ì¼£
+%% ç»˜å›¾ï¼šä¸‰ç»´è½¨è¿¹
 figure;
 plot(X(:,1), X(:,N+1),'LineStyle', '--', 'LineWidth', 1.5);hold on;
 plot(X(:,2), X(:,N+2),'LineStyle', '--', 'LineWidth', 1.5);hold on;
@@ -110,8 +110,8 @@ plot(X(:,5), X(:,N+5),'LineStyle', '--', 'LineWidth', 1.5);hold on;
 % plot(X(ttf(1)/0.01+1:ttf(2)/0.01,6), X(ttf(1)/0.01+1:ttf(2)/0.01,N+6),'LineStyle', '--', 'LineWidth', 1.5);hold on;
 plot(X(ttf(1)/0.01+1:tf/0.01+1,6), X(ttf(1)/0.01+1:tf/0.01+1,N+6),'LineStyle', '--', 'LineWidth', 1.5);hold on;
 plot(X(ttf(2)/0.01+1:tf/0.01+1,7), X(ttf(2)/0.01+1:tf/0.01+1,N+7),'LineStyle', '--', 'LineWidth', 1.5);hold on;
-%»­±à¶Ó±ê¼Ç¡£
-symbols = ['o', 's', 'd', 'p', '*', '+'];color = 'r'; % ¶¨Òå·ûºÅÀàĞÍ
+%ç”»ç¼–é˜Ÿæ ‡è®°ã€‚
+symbols = ['o', 's', 'd', 'p', '*', '+'];color = 'r'; % å®šä¹‰ç¬¦å·ç±»å‹
 time_index=300;
  for i = 1:5
             plot(X(time_index, i), X(time_index, i+N), [color, symbols(5)], 'MarkerSize', 5, 'HandleVisibility', 'off');hold on;
@@ -214,10 +214,10 @@ end
 xlim([-10 32]);
 ylim([-10 32]);
 xlabel('x'); ylabel('y');
-% title('º¬Áìº½½ÚµãµÄ±à¶Ó¹ì¼£');
+% title('å«é¢†èˆªèŠ‚ç‚¹çš„ç¼–é˜Ÿè½¨è¿¹');
 set(gca,'FontSize',12, 'box','on');   
 % grid on;
-%¼ÓĞ¡Í¼Ö»·Å´óÒ»¸öÇøÓò¡£
+%åŠ å°å›¾åªæ”¾å¤§ä¸€ä¸ªåŒºåŸŸã€‚
 axes('position',[.6 .2 .25 .3]);
 box on;
 plot(X(:,1), X(:,N+1),'LineStyle', '--', 'LineWidth', 1.5);hold on;
@@ -258,18 +258,18 @@ end
 xlim([3 18]);
 ylim([3 18]);
 set(gca,'FontSize',12, 'box','on');   
-%% ±à¶ÓÎó²î¼ÆËã
+%% ç¼–é˜Ÿè¯¯å·®è®¡ç®—
 errors = zeros(length(t), N);
 for k = 1:length(t)
     xi = X(k,1:N)';
     yi = X(k,N+1:2*N)';
     vxi = X(k,2*N+1:3*N)';
     vyi = X(k,3*N+1:4*N)';
-    % Áìµ¼½Úµã¹ì¼£
+    % é¢†å¯¼èŠ‚ç‚¹è½¨è¿¹
     xl = 2*t(k);
     yl = 2*t(k);
 
-    % Ã¿¸ö agent µÄÄ¿±êÎ»ÖÃ = Áìµ¼Î»ÖÃ + Æ«ÒÆ
+    % æ¯ä¸ª agent çš„ç›®æ ‡ä½ç½® = é¢†å¯¼ä½ç½® + åç§»
     x_des = xl + px;
     y_des = yl + py;
 
@@ -314,7 +314,7 @@ ylim([-10 30]);
 grid on;
 
 
-%xÖáµÄËÙ¶ÈÎó²î
+%xè½´çš„é€Ÿåº¦è¯¯å·®
 subplot(2,2,3);
 plot(t, errorsvx(:,1:5), 'LineWidth', 1.5);hold on;
 plot(t(ttf(1)/0.01+1:ttf(3)/0.01), errorsvx(ttf(1)/0.01+1:ttf(3)/0.01,6), 'LineWidth', 1.5);hold on;
@@ -327,7 +327,7 @@ ylim([-20 50]);
 grid on;
 
 
-%xÖáµÄËÙ¶ÈÎó²î
+%xè½´çš„é€Ÿåº¦è¯¯å·®
 subplot(2,2,4);
 plot(t, errorsvy(:,1:5), 'LineWidth', 1.5);hold on;
 plot(t(ttf(1)/0.01+1:ttf(3)/0.01), errorsvy(ttf(1)/0.01+1:ttf(3)/0.01,6), 'LineWidth', 1.5);hold on;
@@ -339,7 +339,7 @@ xlim([0 15]);
 ylim([-20 50]);
 grid on;
 
-%Ğ¡Í¼1
+%å°å›¾1
 axes('position',[.15 .7 .1 .15]);
 box on;
 plot(t(100:400), errorsx(100:400,1:5), 'LineWidth', 1.5);hold on;
@@ -356,7 +356,7 @@ xlim([5 9]);ylim([-0.02 0.01]);
 set(gca,'FontSize',12, 'box','on');  
 line([8,8], [-2,20], 'linewidth',1, 'Color','r', 'linestyle','--')
 text(8, 0.01, '$\mathcal T_2$', 'interpreter','latex', 'HorizontalAlignment','left','FontSize',12);
-%Ğ¡Í¼2
+%å°å›¾2
 axes('position',[.6 .7 .1 .15]);
 box on;
 plot(t(100:400), errorsy(100:400,1:5), 'LineWidth', 1.5);hold on;
@@ -373,7 +373,7 @@ xlim([5 9]);ylim([-0.01 0.02]);
 set(gca,'FontSize',12, 'box','on');  
 line([8,8], [-2,20], 'linewidth',1, 'Color','r', 'linestyle','--')
 text(8, 0.02, '$\mathcal T_2$', 'interpreter','latex', 'HorizontalAlignment','left','FontSize',12);
-%Ğ¡Í¼3
+%å°å›¾3
 axes('position',[.15 .2 .1 .15]);
 box on;
 plot(t(100:400), errorsvx(100:400,1:5), 'LineWidth', 1.5);hold on;
@@ -390,7 +390,7 @@ xlim([5 9]);ylim([-0.01 0.02]);
 set(gca,'FontSize',12, 'box','on');  
 line([8,8], [-2,20], 'linewidth',1, 'Color','r', 'linestyle','--')
 text(8, 0.02, '$\mathcal T_2$', 'interpreter','latex', 'HorizontalAlignment','left','FontSize',12);
-%Ğ¡Í¼4
+%å°å›¾4
 axes('position',[.6 .2 .1 .15]);
 box on;
 plot(t(100:400), errorsvy(100:400,1:5), 'LineWidth', 1.5);hold on;
@@ -408,7 +408,7 @@ set(gca,'FontSize',12, 'box','on');
 line([8,8], [-2,20], 'linewidth',1, 'Color','r', 'linestyle','--')
 text(8, 0.01, '$\mathcal T_2$', 'interpreter','latex', 'HorizontalAlignment','left','FontSize',12);
 
-%% ÏµÍ³¶¯Ì¬º¯Êı
+%% ç³»ç»ŸåŠ¨æ€å‡½æ•°
 function dX = dynamics_leader(t, X, L, px, py, b, alpha1, alpha2, rho, Tu, t0)
     N = size(L,1);
     x = X(1:N);
@@ -417,16 +417,16 @@ function dX = dynamics_leader(t, X, L, px, py, b, alpha1, alpha2, rho, Tu, t0)
     vy = X(3*N+1:4*N);
     beta=1;%
 
-    % Æ«ÒÆºóÎó²î
+    % åç§»åè¯¯å·®
     ex = x - px;%
     ey = y - py;%
     disturbance =0.2*cos(t);%zeros(N,1)
-    % Áìº½½Úµã¹ì¼£¡¢ËÙ¶È¡¢¼ÓËÙ¶È
+    % é¢†èˆªèŠ‚ç‚¹è½¨è¿¹ã€é€Ÿåº¦ã€åŠ é€Ÿåº¦
     xl = [2*t; 2*t];
     vl = [2; 2];
     al = [0; 0];
 
-    % etaÓëphi¼ÆËã
+    % etaä¸phiè®¡ç®—
     epsilon = 1e-8;
     if t < t0 + Tu
         eta = (Tu / (t0 + Tu - t + epsilon))^rho;
@@ -438,7 +438,7 @@ function dX = dynamics_leader(t, X, L, px, py, b, alpha1, alpha2, rho, Tu, t0)
         phi = rho / Tu;
     end
 
-    % ¿ØÖÆÂÉ
+    % æ§åˆ¶å¾‹
     ux = zeros(N,1); uy = zeros(N,1);
     for i = 1:N
         sum_x = 0; sum_vx = 0;
@@ -471,11 +471,12 @@ function dX = dynamics_leader(t, X, L, px, py, b, alpha1, alpha2, rho, Tu, t0)
         % end
     end
 
-    % ×´Ì¬µ¼Êı
+    % çŠ¶æ€å¯¼æ•°
     dx = vx ;
     dy = vy ;
     dvx = ux+ disturbance;%-1*vx-2*x
     dvy = uy+ disturbance;%-1*vy-2*y
     dX = [dx; dy; dvx; dvy];
 end
+
 
