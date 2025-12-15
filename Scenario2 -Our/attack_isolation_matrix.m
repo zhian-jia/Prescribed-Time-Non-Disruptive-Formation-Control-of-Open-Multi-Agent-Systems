@@ -1,18 +1,18 @@
 function L = attack_isolation_matrix(epsilon_norm, L_seq, tau, N, T)
-% ·Ö²¼Ê½¹¥»÷¸ôÀëËã·¨ - Êä³öÎª (N x T) µÄ¾ØÕó
-% ÊäÈë:
-%   epsilon_seq : 1¡ÁT cell£¬Ã¿¸öÎª N¡Á1 cell£¬epsilon_seq{k}{i} = ¦Å_i(t_k)
-%   L_seq       : 1¡ÁT cell£¬Ã¿¸öÎª N¡ÁN À­ÆÕÀ­Ë¹¾ØÕó
-%   t_seq       : 1¡ÁT Ê±¼äÏòÁ¿
-%   tau         : ¼ì²âÆô¶¯Ê±¼ä
-% Êä³ö:
-%   Si_record   : N¡ÁT ¾ØÕó£¬¼ÇÂ¼ËùÓĞ agent µÄ¸ôÀëÅĞ¶Ï±êÖ¾£¨0/1£©
+% åˆ†å¸ƒå¼æ”»å‡»éš”ç¦»ç®—æ³• - è¾“å‡ºä¸º (N x T) çš„çŸ©é˜µ
+% è¾“å…¥:
+%   epsilon_seq : 1Ã—T cellï¼Œæ¯ä¸ªä¸º NÃ—1 cellï¼Œepsilon_seq{k}{i} = Îµ_i(t_k)
+%   L_seq       : 1Ã—T cellï¼Œæ¯ä¸ªä¸º NÃ—N æ‹‰æ™®æ‹‰æ–¯çŸ©é˜µ
+%   t_seq       : 1Ã—T æ—¶é—´å‘é‡
+%   tau         : æ£€æµ‹å¯åŠ¨æ—¶é—´
+% è¾“å‡º:
+%   Si_record   : NÃ—T çŸ©é˜µï¼Œè®°å½•æ‰€æœ‰ agent çš„éš”ç¦»åˆ¤æ–­æ ‡å¿—ï¼ˆ0/1ï¼‰
 Si_record = zeros(N, T);
 % epsilon_norm = zeros(N, T);
     L = L_seq;
-    Ii = zeros(N,1);   % ±¾µØÊÇ·ñÒì³£
-    Ci = zeros(N,1);   % ÊÕµ½µÄÒì³£ÊıÁ¿£¨°üÀ¨×Ô¼º£©  
-    % ¹¹ÔìÁÚ¾Ó¼¯ºÏ
+    Ii = zeros(N,1);   % æœ¬åœ°æ˜¯å¦å¼‚å¸¸
+    Ci = zeros(N,1);   % æ”¶åˆ°çš„å¼‚å¸¸æ•°é‡ï¼ˆåŒ…æ‹¬è‡ªå·±ï¼‰  
+    % æ„é€ é‚»å±…é›†åˆ
     Ni_set = false(N, N);
     for i = 1:N
         Ni_set(i,:) = (L(i,:) == -1);
@@ -20,9 +20,9 @@ Si_record = zeros(N, T);
     end
 
 %     if t >= tau
-        % µÚÒ»²½£º¼ÆËã Ii ºÍ±¾µØ Ci
+        % ç¬¬ä¸€æ­¥ï¼šè®¡ç®— Ii å’Œæœ¬åœ° Ci
         for i = 1:N
-            if sum(abs(epsilon_norm(i,:)))/N > 0.01 %¸ü¸ÄÎªÖ»Òª´æÔÚÎó²î²»Îª0¡£ÄÇÃ´¾Í
+            if sum(abs(epsilon_norm(i,:)))/N > 0.01 %
                 Ii(i) = 1;
                 Ci(i) = 1;
             else
@@ -31,18 +31,18 @@ Si_record = zeros(N, T);
             end
         end
 
-        % µÚ¶ş²½£ºÍ³¼ÆÁÚ¾ÓÖĞÒì³£ÊıÁ¿
+        % ç¬¬äºŒæ­¥ï¼šç»Ÿè®¡é‚»å±…ä¸­å¼‚å¸¸æ•°é‡
         for i = 1:N
             for j = 1:N
-                if (Ni_set(i,j) && Ii(j) == 1)  %  && abs(epsilon_norm(i,j))>0.01
+                if (Ni_set(i,j) && Ii(j) == 1)  %
                     Ci(i) = Ci(i) + 1;
                 end
             end
         end
 
-        % µÚÈı²½£ºÊÇ·ñÂú×ã¸ôÀëÌõ¼ş
+        % ç¬¬ä¸‰æ­¥ï¼šæ˜¯å¦æ»¡è¶³éš”ç¦»æ¡ä»¶
         for i = 1:N
-            if (Ci(i) == sum(Ni_set(i,:)) + 1) % && (epsilon_norm(i,j)~=0)
+            if (Ci(i) == sum(Ni_set(i,:)) + 1) %
                 Si_record(i) = 1;
             end
         end
@@ -58,3 +58,4 @@ Si_record = zeros(N, T);
             end
         end
 end
+
